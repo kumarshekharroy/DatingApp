@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Diagnostics;
+using AutoMapper;
 
 namespace DatingApp.API
 {
@@ -31,7 +32,9 @@ namespace DatingApp.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(Program).Assembly);
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IDatingRepository, DatingRepository>();
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConncetion")));
             services.AddControllers();
             services.AddCors();
@@ -47,6 +50,12 @@ namespace DatingApp.API
                     ValidateAudience = false
 
                 };
+
+            });
+
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 
             });
         }
@@ -67,10 +76,10 @@ namespace DatingApp.API
                         context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                         var error = context.Features.Get<IExceptionHandlerFeature>();
                         if (error != null)
-                        { 
-                            context.Response.Headers.Add("Application-Error", error.Error.Message); 
-                            context.Response.Headers.Add("Access-Control-Expose-Headers","Application-Error"); 
-                            context.Response.Headers.Add("Access-Control-Allow-Origin", "*"); 
+                        {
+                            context.Response.Headers.Add("Application-Error", error.Error.Message);
+                            context.Response.Headers.Add("Access-Control-Expose-Headers", "Application-Error");
+                            context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
                             await context.Response.WriteAsync(error.Error.Message);
                         }
                     });
@@ -82,6 +91,7 @@ namespace DatingApp.API
             app.UseRouting();
 
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseCors(corsPolocyBuilder => corsPolocyBuilder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
