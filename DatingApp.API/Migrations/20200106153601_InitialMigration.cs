@@ -13,19 +13,19 @@ namespace DatingApp.API.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Username = table.Column<string>(nullable: true),
-                    PasswordHash = table.Column<byte[]>(nullable: true),
-                    PasswordSalt = table.Column<byte[]>(nullable: true),
-                    Gender = table.Column<string>(nullable: true),
+                    Username = table.Column<string>(maxLength: 50, nullable: false),
+                    PasswordHash = table.Column<byte[]>(nullable: false),
+                    PasswordSalt = table.Column<byte[]>(nullable: false),
+                    Gender = table.Column<int>(nullable: false, defaultValue: 0),
                     DateOfBirth = table.Column<DateTime>(nullable: false),
-                    KnownAs = table.Column<string>(nullable: true),
+                    KnownAs = table.Column<string>(maxLength: 50, nullable: false),
                     Created = table.Column<DateTime>(nullable: false),
                     LastActive = table.Column<DateTime>(nullable: false),
-                    Introduction = table.Column<string>(nullable: true),
-                    LookingFor = table.Column<string>(nullable: true),
-                    Interests = table.Column<string>(nullable: true),
-                    City = table.Column<string>(nullable: true),
-                    Country = table.Column<string>(nullable: true)
+                    Introduction = table.Column<string>(maxLength: 500, nullable: false),
+                    LookingFor = table.Column<string>(maxLength: 500, nullable: false),
+                    Interests = table.Column<string>(maxLength: 500, nullable: false),
+                    City = table.Column<string>(maxLength: 50, nullable: false),
+                    Country = table.Column<string>(maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -38,10 +38,10 @@ namespace DatingApp.API.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Url = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
+                    Url = table.Column<string>(maxLength: 250, nullable: false),
+                    Description = table.Column<string>(maxLength: 500, nullable: false, defaultValue: ""),
                     DateAdded = table.Column<DateTime>(nullable: false),
-                    IsProfilePic = table.Column<bool>(nullable: false),
+                    IsProfilePic = table.Column<bool>(nullable: false, defaultValue: false),
                     UserId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
