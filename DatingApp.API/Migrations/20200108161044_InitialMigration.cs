@@ -42,6 +42,7 @@ namespace DatingApp.API.Migrations
                     Description = table.Column<string>(maxLength: 500, nullable: false, defaultValue: ""),
                     DateAdded = table.Column<DateTime>(nullable: false),
                     IsProfilePic = table.Column<bool>(nullable: false, defaultValue: false),
+                    PublicId = table.Column<string>(nullable: false, defaultValue: ""),
                     UserId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>

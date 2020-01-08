@@ -37,8 +37,9 @@ namespace DatingApp.API.Data
                 entity.Property(prop => prop.Id).ValueGeneratedOnAdd().IsRequired();
                 entity.Property(prop => prop.Url).HasMaxLength(250).IsRequired();
                 entity.Property(prop => prop.Description).HasMaxLength(500).HasDefaultValue(string.Empty).IsRequired();
+                entity.Property(prop => prop.PublicId).HasDefaultValue(string.Empty).IsRequired();
                 entity.Property(prop => prop.DateAdded).IsRequired();
-                entity.Property(prop => prop.IsProfilePic).HasDefaultValue(false).IsRequired(); 
+                entity.Property(prop => prop.IsProfilePic).HasDefaultValue(false).IsRequired();
                 entity.Property(prop => prop.UserId).IsRequired();
             });
         }

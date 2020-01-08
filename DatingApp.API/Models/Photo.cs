@@ -9,6 +9,7 @@ namespace DatingApp.API.Models
         public string Description { get; set; }
         public DateTime DateAdded { get; set; }
         public bool IsProfilePic { get; set; }
+        public string PublicId { get; set; }
         public long UserId { get; set; }
         public User User { get; set; }
 
